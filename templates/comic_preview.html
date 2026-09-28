@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ title }} | ComicCraft
+    </title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            min-height: 100vh;
+
+            color: #ffffff;
+
+            background:
+                radial-gradient(
+                    circle at 20% 0%,
+                    rgba(99, 102, 241, 0.30),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(14, 165, 233, 0.18),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #030617,
+                    #0b1230 50%,
+                    #02040d
+                );
+
+            padding:
+                40px 20px 70px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1180px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .brand {
+            display: inline-block;
+
+            margin-bottom: 18px;
+
+            color: #a78bfa;
+
+            font-size: 12px;
+            font-weight: 900;
+
+            letter-spacing: 4px;
+        }
+
+        .header h1 {
+            margin-bottom: 14px;
+
+            font-size:
+                clamp(34px, 5vw, 62px);
+
+            line-height: 1.1;
+
+            font-weight: 900;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #a5b4fc,
+                    #67e8f9
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .subtitle {
+            color: #aab5d8;
+
+            font-size: 16px;
+        }
+
+        /* -------------------------------- */
+        /* COMIC GRID */
+        /* -------------------------------- */
+
+        .comic-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 30px;
+        }
+
+        /* -------------------------------- */
+        /* PANEL CARD */
+        /* -------------------------------- */
+
+        .panel {
+            overflow: hidden;
+
+            border-radius: 24px;
+
+            border:
+                1px solid
+                rgba(139, 124, 255, 0.25);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(22, 32, 75, 0.96),
+                    rgba(7, 12, 32, 0.98)
+                );
+
+            box-shadow:
+                0 25px 60px
+                rgba(0, 0, 0, 0.35);
+
+            transition:
+                transform 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .panel:hover {
+            transform:
+                translateY(-8px);
+
+            border-color:
+                rgba(139, 92, 246, 0.65);
+        }
+
+        /* -------------------------------- */
+        /* PANEL NUMBER */
+        /* -------------------------------- */
+
+        .panel-number {
+            padding:
+                16px 20px;
+
+            color: #a5b4fc;
+
+            font-size: 12px;
+            font-weight: 900;
+
+            letter-spacing: 2px;
+
+            border-bottom:
+                1px solid
+                rgba(139, 124, 255, 0.12);
+        }
+
+        /* -------------------------------- */
+        /* IMAGE */
+        /* -------------------------------- */
+
+        .panel-image {
+            display: block;
+
+            width: 100%;
+
+            aspect-ratio: 1 / 1;
+
+            object-fit: cover;
+
+            background: #ffffff;
+        }
+
+        /* -------------------------------- */
+        /* CONTENT */
+        /* -------------------------------- */
+
+        .panel-content {
+            padding: 24px;
+        }
+
+        /* -------------------------------- */
+        /* NARRATION */
+        /* -------------------------------- */
+
+        .narration {
+            margin-bottom: 18px;
+
+            color: #d8e0fa;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        /* -------------------------------- */
+        /* DIALOGUE AREA */
+        /* -------------------------------- */
+
+        .dialogue-area {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            width: 100%;
+        }
+
+        .dialogue {
+            display: block;
+
+            width: 100%;
+
+            padding:
+                12px 16px;
+
+            border-radius: 14px;
+
+            color: #ffffff;
+
+            background:
+                rgba(124, 58, 237, 0.18);
+
+            border:
+                1px solid
+                rgba(139, 92, 246, 0.30);
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        .dialogue-speaker {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #c4b5fd;
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+        .dialogue-text {
+            display: block;
+
+            color: #ffffff;
+        }
+
+        /* -------------------------------- */
+        /* ACTION BUTTONS */
+        /* -------------------------------- */
+
+        .actions {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 16px;
+
+            margin-top: 50px;
+
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-width: 210px;
+
+            padding:
+                15px 24px;
+
+            border-radius: 14px;
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #2563eb
+                );
+
+            box-shadow:
+                0 12px 30px
+                rgba(79, 70, 229, 0.30);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .button:hover {
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 16px 40px
+                rgba(79, 70, 229, 0.50);
+        }
+
+        .secondary {
+            background:
+                rgba(17, 25, 54, 0.95);
+
+            border:
+                1px solid
+                rgba(139, 124, 255, 0.30);
+
+            box-shadow: none;
+        }
+
+        /* -------------------------------- */
+        /* FOOTER */
+        /* -------------------------------- */
+
+        .footer {
+            margin-top: 55px;
+
+            text-align: center;
+
+            color: #697493;
+
+            font-size: 12px;
+        }
+
+        /* -------------------------------- */
+        /* MOBILE */
+        /* -------------------------------- */
+
+        @media (max-width: 800px) {
+
+            body {
+                padding:
+                    30px 15px 50px;
+            }
+
+            .comic-grid {
+                grid-template-columns: 1fr;
+
+                gap: 24px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="brand">
+            🎨 COMICCRAFT
+        </div>
+
+        <h1>
+            {{ title }}
+        </h1>
+
+        <p class="subtitle">
+            Your AI-generated 10-panel comic story
+        </p>
+
+    </header>
+
+
+    <!-- COMIC PANELS -->
+
+    <main class="comic-grid">
+
+        {% for panel in panels %}
+
+        <article class="panel">
+
+
+            <!-- PANEL NUMBER -->
+
+            <div class="panel-number">
+
+                PANEL {{ panel.panel_number }}
+
+            </div>
+
+
+            <!-- PANEL IMAGE -->
+
+            <img
+                class="panel-image"
+                src="/static/panels/panel_{{ panel.panel_number }}.png?v={{ panel.panel_number }}"
+                alt="Comic Panel {{ panel.panel_number }}"
+            >
+
+
+            <!-- PANEL CONTENT -->
+
+            <div class="panel-content">
+
+
+                <!-- NARRATION -->
+
+                {% if panel.narration %}
+
+                <p class="narration">
+
+                    {{ panel.narration }}
+
+                </p>
+
+                {% endif %}
+
+
+                <!-- DIALOGUE -->
+
+                {% if panel.dialogue %}
+
+                <div class="dialogue-area">
+
+                    {% for line in panel.dialogue.split('\n') %}
+
+                        {% if line.strip() %}
+
+                        <div class="dialogue">
+
+                            {% if ':' in line %}
+
+                                <span
+                                    class="dialogue-speaker"
+                                >
+                                    {{ line.split(':', 1)[0] }}
+                                </span>
+
+                                <span
+                                    class="dialogue-text"
+                                >
+                                    {{ line.split(':', 1)[1].strip() }}
+                                </span>
+
+                            {% else %}
+
+                                <span
+                                    class="dialogue-text"
+                                >
+                                    {{ line }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+                {% endif %}
+
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </main>
+
+
+    <!-- ACTION BUTTONS -->
+
+    <div class="actions">
+
+
+        {% if pdf_filename %}
+
+        <a
+            href="/download/{{ pdf_filename }}"
+            class="button"
+            download
+        >
+            📥 Download Comic PDF
+        </a>
+
+        {% endif %}
+
+
+        <a
+            href="/"
+            class="button secondary"
+        >
+            ← Create Another Comic
+        </a>
+
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        ComicCraft • AI Comic Story Creator
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

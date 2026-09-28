@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="ComicCraft - AI powered comic story creator"
+    >
+
+    <title>ComicCraft | AI Comic Story Creator</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="navbar">
+
+    <div class="nav-logo">
+
+        <div class="logo-mark">
+            CC
+        </div>
+
+        <span>
+            Comic<span>Craft</span>
+        </span>
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a
+            href="#home"
+            class="active"
+        >
+            Home
+        </a>
+
+        <a href="#features">
+            Features
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     HERO SECTION
+===================================================== -->
+
+<section
+    class="hero-section"
+    id="home"
+>
+
+
+    <div class="hero-overlay"></div>
+
+
+    <div class="hero-content">
+
+
+        <!-- Badge -->
+
+        <div class="hero-badge">
+
+            ✦ AI POWERED COMIC CREATOR
+
+        </div>
+
+
+
+        <!-- Main Heading -->
+
+        <h1>
+
+            Turn Your Ideas Into
+
+            <span>
+                Amazing Comics
+            </span>
+
+        </h1>
+
+
+
+        <!-- Description -->
+
+        <p class="hero-description">
+
+            Transform your imagination into professional
+            comic stories with AI-powered storytelling,
+            creative visuals and cinematic scenes.
+
+        </p>
+
+
+
+        <!-- =================================================
+             COMIC CREATOR
+        ================================================== -->
+
+        <div class="creator-box">
+
+            <form
+                action="/generate"
+                method="post"
+            >
+
+
+                <div class="idea-area">
+
+
+                    <div class="idea-icon">
+                        💡
+                    </div>
+
+
+                    <div class="idea-input">
+
+                        <label for="prompt">
+
+                            What kind of comic do you want
+                            to create?
+
+                        </label>
+
+
+                        <textarea
+                            id="prompt"
+                            name="prompt"
+                            rows="2"
+                            maxlength="2000"
+                            placeholder="Example: A young hero discovers a mysterious portal..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="generate-button"
+                >
+
+                    ✨ Generate Comic
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         ANIMATED CARTOON CHARACTERS
+    ================================================== -->
+
+    <div class="running-zone">
+
+
+        <!-- Character 1 -->
+
+        <div class="running-character">
+
+
+            <div class="cartoon-body blue-body">
+
+                <div class="cartoon-head">
+
+                    <div class="hair"></div>
+
+                    <div class="eye eye-left"></div>
+
+                    <div class="eye eye-right"></div>
+
+                    <div class="smile"></div>
+
+                </div>
+
+
+                <div class="cartoon-shirt">
+                    CC
+                </div>
+
+
+                <div class="leg leg-left"></div>
+
+                <div class="leg leg-right"></div>
+
+            </div>
+
+
+            <div class="speed-line line-one"></div>
+
+            <div class="speed-line line-two"></div>
+
+
+        </div>
+
+
+
+        <!-- Character 2 -->
+
+        <div
+            class="running-character character-two"
+        >
+
+
+            <div class="cartoon-body orange-body">
+
+                <div class="cartoon-head">
+
+                    <div class="hair"></div>
+
+                    <div class="eye eye-left"></div>
+
+                    <div class="eye eye-right"></div>
+
+                    <div class="smile"></div>
+
+                </div>
+
+
+                <div class="cartoon-shirt">
+                    AI
+                </div>
+
+
+                <div class="leg leg-left"></div>
+
+                <div class="leg leg-right"></div>
+
+            </div>
+
+
+            <div class="speed-line line-one"></div>
+
+            <div class="speed-line line-two"></div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     FEATURES SECTION
+===================================================== -->
+
+<section
+    class="features-section"
+    id="features"
+>
+
+
+    <div class="section-title">
+
+        <span>
+            POWERFUL FEATURES
+        </span>
+
+        <h2>
+            Everything You Need To Create Comics
+        </h2>
+
+    </div>
+
+
+
+    <div class="features-grid">
+
+
+        <!-- Feature 1 -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon purple">
+                ✨
+            </div>
+
+            <h3>
+                AI Powered
+            </h3>
+
+            <p>
+                Smart AI creates unique comic
+                stories from your ideas.
+            </p>
+
+        </div>
+
+
+
+        <!-- Feature 2 -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon green">
+                ◈
+            </div>
+
+            <h3>
+                Stunning Visuals
+            </h3>
+
+            <p>
+                Generate beautiful visual scenes
+                for every comic panel.
+            </p>
+
+        </div>
+
+
+
+        <!-- Feature 3 -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon yellow">
+                ⚡
+            </div>
+
+            <h3>
+                Fast & Easy
+            </h3>
+
+            <p>
+                Create a complete comic story
+                in just a few steps.
+            </p>
+
+        </div>
+
+
+
+        <!-- Feature 4 -->
+
+        <div class="feature-card">
+
+            <div class="feature-icon pink">
+                ♥
+            </div>
+
+            <h3>
+                Endless Creativity
+            </h3>
+
+            <p>
+                Create adventures, fantasy,
+                comedy and many more genres.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT SECTION
+===================================================== -->
+
+<section
+    class="about-section"
+    id="about"
+>
+
+
+    <div class="about-card">
+
+
+        <span>
+            ABOUT COMICCRAFT
+        </span>
+
+
+        <h2>
+            Your Imagination + AI
+            = Amazing Comics
+        </h2>
+
+
+        <p>
+
+            ComicCraft combines Generative AI,
+            storytelling and visual creation to
+            transform simple ideas into complete
+            comic experiences.
+
+        </p>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+
+    <div class="footer-logo">
+        ComicCraft
+    </div>
+
+
+    <p>
+        AI Comic Story Creator
+    </p>
+
+
+    <small>
+        © 2026 ComicCraft.
+        All rights reserved.
+    </small>
+
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script
+    src="{{ url_for('static', path='js/script.js') }}"
+></script>
+
+
+</body>
+
+</html>

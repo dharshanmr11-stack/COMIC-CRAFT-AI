@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Export Comic - ComicCraft</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+    <main class="success-page">
+
+        <div class="success-card">
+
+            <div class="success-icon">
+                🎉
+            </div>
+
+            <h1>
+                Your Comic Is Ready!
+            </h1>
+
+            <p>
+                Your AI-generated comic has been created successfully.
+            </p>
+
+            <div class="success-actions">
+
+                <a
+                    href="/"
+                    class="back-button"
+                >
+                    ← Create New Comic
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        <p>
+            © 2026 ComicCraft • AI Comic Story Creator
+        </p>
+    </footer>
+
+
+    <script
+        src="{{ url_for('static', path='js/script.js') }}"
+    ></script>
+
+</body>
+</html>

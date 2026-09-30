@@ -30,8 +30,8 @@ class Settings(BaseSettings):
     # COMIC SETTINGS
     # -----------------------------------------
 
-    # ComicCraft will generate exactly 10 panels.
-    PANEL_COUNT: int = 10
+    # ComicCraft will generate exactly 5 panels.
+    PANEL_COUNT: int = 5
 
     MAX_PROMPT_LENGTH: int = 2000
 

@@ -12,7 +12,7 @@ def generate_comic_story(
 ) -> ComicStory:
 
     # -----------------------------------------
-    # USE LOCAL FALLBACK IF API KEY IS MISSING
+    # LOCAL FALLBACK IF API KEY IS MISSING
     # -----------------------------------------
 
     if not settings.GEMINI_API_KEY:
@@ -33,8 +33,10 @@ COMIC OUTLINE:
 
 IMPORTANT REQUIREMENTS:
 
+- Create exactly {settings.PANEL_COUNT} story entries.
 - Create exactly one story entry for every panel.
 - Keep every panel_number unchanged.
+- Do not create extra panels.
 - Give every panel unique narration.
 - Give every panel natural dialogue.
 - A panel may have one or two speakers.
@@ -42,12 +44,13 @@ IMPORTANT REQUIREMENTS:
   dialogue lines whenever it makes sense.
 - Each dialogue line must have a clear speaker name.
 - Never combine two speakers into one dialogue string.
-- Keep each dialogue line short and natural.
+- Keep dialogue short and natural.
 - Do not repeat narration.
 - Do not repeat dialogue.
 - Continue the story naturally from panel to panel.
 - Make the final panel feel like a satisfying ending.
 - Use original character names.
+- Return exactly {settings.PANEL_COUNT} panels.
 - Return only valid JSON.
 
 Required structure:
@@ -71,11 +74,11 @@ Example structure:
 "dialogues": [
     {{
         "speaker": "Arun",
-        "text": "This cable must land smoothly."
+        "text": "We found the secret!"
     }},
     {{
         "speaker": "Maya",
-        "text": "I think I understand the mystery now."
+        "text": "Let's see what happens next."
     }}
 ]
 
@@ -101,19 +104,37 @@ Do not put multiple speakers inside one dialogue text.
             data,
             ComicStory
         ):
+
+            data.panels = data.panels[
+                :settings.PANEL_COUNT
+            ]
+
             return data
 
         if isinstance(
             data,
             dict
         ):
-            return ComicStory.model_validate(
+
+            story = ComicStory.model_validate(
                 data
             )
 
-        return ComicStory.model_validate(
+            story.panels = story.panels[
+                :settings.PANEL_COUNT
+            ]
+
+            return story
+
+        story = ComicStory.model_validate(
             json.loads(response.text)
         )
+
+        story.panels = story.panels[
+            :settings.PANEL_COUNT
+        ]
+
+        return story
 
     except Exception as error:
 
@@ -148,125 +169,97 @@ def create_demo_story(
     outline: ComicOutline,
 ) -> ComicStory:
 
+    # -----------------------------------------
+    # EXACTLY 5 NARRATIONS
+    # -----------------------------------------
+
     narrations = [
-        "The adventure begins as a mysterious clue appears.",
-        "The heroes follow the clue into an unknown place.",
-        "A hidden discovery changes their entire plan.",
-        "The heroes work together to solve the difficult challenge.",
-        "The mystery becomes clearer as they find another clue.",
-        "A strange signal leads them deeper into the adventure.",
-        "The heroes finally discover who created the mystery.",
-        "They must make one important decision before moving forward.",
-        "The final challenge is solved through teamwork.",
-        "The adventure ends with a new mystery waiting to be discovered.",
+
+        "Arun discovers a mysterious glowing robot inside the college laboratory.",
+
+        "The robot leads Arun through a hidden hallway toward a secret room.",
+
+        "Inside the room, the robot activates a glowing map that reveals a mystery.",
+
+        "Arun and the robot work together to solve the mystery using the clues.",
+
+        "The mystery is solved, but a new glowing clue appears for their next adventure.",
     ]
 
+    # -----------------------------------------
+    # EXACTLY 5 DIALOGUE SETS
+    # -----------------------------------------
+
     dialogue_sets = [
+
         [
             {
                 "speaker": "Arun",
-                "text": "Something strange is happening here!"
+                "text": "What is this mysterious robot?"
             }
         ],
 
         [
             {
                 "speaker": "Arun",
-                "text": "This clue must lead somewhere."
+                "text": "Where are you taking me?"
             },
             {
                 "speaker": "Maya",
-                "text": "Then let's follow it carefully."
+                "text": "Look! There is a hidden door."
             }
         ],
 
         [
             {
                 "speaker": "Maya",
-                "text": "I can't believe what we found!"
-            }
-        ],
-
-        [
-            {
-                "speaker": "Arun",
-                "text": "We need to solve this together."
-            },
-            {
-                "speaker": "Maya",
-                "text": "Look! The answer is right there."
-            }
-        ],
-
-        [
-            {
-                "speaker": "Arun",
-                "text": "There is another clue!"
-            }
-        ],
-
-        [
-            {
-                "speaker": "Maya",
-                "text": "Did you hear that signal?"
+                "text": "The map is showing something!"
             },
             {
                 "speaker": "Arun",
-                "text": "Yes. It is coming from ahead."
+                "text": "Then this must be the secret."
             }
         ],
 
         [
             {
                 "speaker": "Arun",
-                "text": "Now we know who started this."
-            }
-        ],
-
-        [
-            {
-                "speaker": "Maya",
-                "text": "We have to choose our next step."
-            },
-            {
-                "speaker": "Arun",
-                "text": "Let's trust what we discovered."
-            }
-        ],
-
-        [
-            {
-                "speaker": "Arun",
-                "text": "We did it!"
+                "text": "We can solve this together."
             },
             {
                 "speaker": "Maya",
-                "text": "Teamwork solved the mystery."
+                "text": "I found the final clue!"
             }
         ],
 
         [
             {
-                "speaker": "Maya",
-                "text": "This adventure is finally over."
+                "speaker": "Arun",
+                "text": "We solved the mystery!"
             },
             {
-                "speaker": "Arun",
-                "text": "Maybe... but another mystery is waiting."
+                "speaker": "Maya",
+                "text": "Wait... another clue just appeared."
             }
         ],
     ]
 
     panels = []
 
-    for index, panel in enumerate(
-        outline.panels
-    ):
+    # -----------------------------------------
+    # CREATE ONLY THE PANELS THAT EXIST
+    # -----------------------------------------
 
-        story_index = min(
-            index,
-            len(narrations) - 1
-        )
+    panel_limit = min(
+        len(outline.panels),
+        settings.PANEL_COUNT,
+        len(narrations),
+        len(dialogue_sets),
+    )
+
+    for index in range(panel_limit):
+
+        panel = outline.panels[index]
 
         panels.append(
             {
@@ -274,10 +267,10 @@ def create_demo_story(
                     panel.panel_number,
 
                 "narration":
-                    narrations[story_index],
+                    narrations[index],
 
                 "dialogues":
-                    dialogue_sets[story_index],
+                    dialogue_sets[index],
             }
         )
 
